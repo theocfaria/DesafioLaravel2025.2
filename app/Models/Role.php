@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     use HasFactory;
-    protected $table = 'function';
+
+    protected $table = 'functions';
+    public $timestamps = false;
     protected $primaryKey = 'function_id';
     protected $fillable = ['name'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'function_id');
+    }
 }

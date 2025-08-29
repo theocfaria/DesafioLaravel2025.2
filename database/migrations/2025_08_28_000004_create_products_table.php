@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('products', function (Blueprint $table) {
             $table->unsignedBigInteger('product_id');
             $table->string('name', 45);
-            $table->binary('image');
+            $table->binary('image')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('quantity');
             $table->longText('description');
