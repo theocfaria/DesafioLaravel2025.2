@@ -21,11 +21,11 @@ return new class extends Migration {
             $table->string('extra_info', 45)->nullable();
             $table->string('phone_number', 16);
             $table->date('birth');
-            $table->string('cpf', 11)->unique();
+            $table->string('cpf', 14)->unique();
             $table->decimal('balance', 10, 2)->nullable();
             $table->binary('image')->nullable();
             $table->unsignedBigInteger('function_id');
-            $table->unsignedBigInteger('father_id');
+            $table->unsignedBigInteger('father_id')->nullable();
 
             $table->unique(['user_id', 'function_id']);
 

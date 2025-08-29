@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -24,6 +25,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $function = DB::table('functions')->where('name', 'Usuário')->first();
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -36,11 +38,11 @@ class UserFactory extends Factory
             'state' => $this->faker->stateAbbr(),
             'extra_info' => $this->faker->optional()->secondaryAddress(),
             'phone_number' => $this->faker->numerify('(##) #####-####'),
-            'birth' => $this->faker->phoneNumber(),
+            'birth' => $this->faker->date(),
             'cpf' => $this->faker->numerify("###.###.###-##"),
             'balance' => $this->faker->randomFloat(2, 0, 10000),
             'image' => null,
-            'function_id' => Role::where('name', 'Usuário')->first()->function_id(),
+            'function_id' => $function->function_id,
             'father_id' => null,
         ];
     }
@@ -50,7 +52,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
