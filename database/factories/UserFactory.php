@@ -23,12 +23,25 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $function = DB::table('functions')->where('name', 'Usuário')->first();
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('1234'),
-            'remember_token' => Str::random(10),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => static::$password ??= Hash::make('password'),
+            'cep' => $this->faker->numerify('#####-###'),
+            'number' => $this->faker->buildingNumber(),
+            'street' => $this->faker->streetName(),
+            'district' => $this->faker->citySuffix(),
+            'city' => $this->faker->city(),
+            'state' => $this->faker->stateAbbr(),
+            'extra_info' => $this->faker->optional()->secondaryAddress(),
+            'phone_number' => $this->faker->numerify('(##) #####-####'),
+            'birth' => $this->faker->date(),
+            'cpf' => $this->faker->numerify("###.###.###-##"),
+            'balance' => $this->faker->randomFloat(2, 0, 10000),
+            'image' => null,
+            'function_id' => $function->function_id,
+            'father_id' => null,
         ];
     }
 
