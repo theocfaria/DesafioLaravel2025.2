@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\FacadeS\DB;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -42,6 +43,8 @@ class UserFactory extends Factory
             'image' => null,
             'function_id' => $function->function_id,
             'father_id' => null,
+            'updated_at' => null,
+            'created_at' => null,
         ];
     }
 

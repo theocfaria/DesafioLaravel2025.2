@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->binary('image')->nullable();
             $table->unsignedBigInteger('function_id');
             $table->unsignedBigInteger('father_id')->nullable();
+            $table->timestamps();
 
             $table->unique(['user_id', 'function_id']);
 
