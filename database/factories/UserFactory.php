@@ -24,7 +24,6 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $function = DB::table('functions')->where('name', 'Usuário')->first();
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
@@ -41,7 +40,7 @@ class UserFactory extends Factory
             'cpf' => $this->faker->numerify("###.###.###-##"),
             'balance' => $this->faker->randomFloat(2, 0, 10000),
             'image' => null,
-            'function_id' => $function->function_id,
+            'function_id' => $this->faker->numberBetween(1, DB::table('functions')->count()),
             'father_id' => null,
             'updated_at' => null,
             'created_at' => null,
@@ -53,7 +52,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
