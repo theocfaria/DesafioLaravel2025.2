@@ -5,10 +5,14 @@
             <div class="flex">
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('pagina-inicial')" :active="request()->routeIs('pagina-inicial')">
+                        {{ __('Página Inicial') }}
                     </x-nav-link>
                 </div>
+            </div>
+            <div class="flex justify-center items-center">
+                <input 
+                    type="text" placeholder="Pesquisar..." class="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
             </div>
 
             <!-- Settings Dropdown -->
