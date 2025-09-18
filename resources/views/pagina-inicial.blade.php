@@ -21,9 +21,14 @@
                                     {{ Str::limit($product->description, 120) }}
                                 </p>
                             </div>
-                            <p class="text-blue-600 font-bold mt-4 text-lg">R$
-                                {{ number_format($product->price, 2, ',', '.') }}
-                            </p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-blue-600 font-bold mt-4 text-lg">R$
+                                    {{ number_format($product->price, 2, ',', '.') }}
+                                </p>
+                                <p class="text-gray-500">
+                                    Vendedor: {{ Str::limit($product->seller->name, 120) }}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 @endforeach
