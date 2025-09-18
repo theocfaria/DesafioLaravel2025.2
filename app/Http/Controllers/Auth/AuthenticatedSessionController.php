@@ -29,8 +29,8 @@ class AuthenticatedSessionController extends Controller
 
         $user = $request->user();
 
-        if ($request->user()->function_id == 1) {
-            return redirect()->intended('/admin/dashboard');
+        if ($request->user()->function_id === 1) {
+            return redirect()->route('dashboard');
         }
 
         return redirect()->intended(route('pagina-inicial'));

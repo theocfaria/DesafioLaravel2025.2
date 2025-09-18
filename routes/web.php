@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin/dashboard');
+Route::get('admin/dashboard', function () {
+    return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [PaginaInicialController::class, 'index'])->middleware(['auth', 'verified'])->name('pagina-inicial');
