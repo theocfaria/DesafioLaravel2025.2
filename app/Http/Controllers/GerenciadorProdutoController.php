@@ -40,29 +40,34 @@ class GerenciadorProdutoController extends Controller
             'category_id' => 'required|exists:categories,category_id',
         ]);
 
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+        }
+
         $lastProductId = Product::max('product_id');
         $nextProductId = $lastProductId ? $lastProductId + 1 : 1;
+
         Product::create([
             'product_id' => $nextProductId,
             'seller_id' => auth()->user()->user_id,
             'name' => $validatedData['name'],
-            'image' => $validatedData['image'],
+            'image' => $imagePath,
             'price' => $validatedData['price'],
             'quantity' => $validatedData['quantity'],
             'description' => $validatedData['description'],
             'category_id' => $validatedData['category_id'],
         ]);
 
-        return redirect()->route('products.index')->with('success', 'Produto criado com sucesso!');
+        return redirect()->route('produtos.index')->with('success', 'Produto criado com sucesso!');
     }
 
     public function edit(string $productId, string $sellerId, string $categoryId)
     {
-        $product = Product::findOrFail([
-            'product_id' => $productId,
-            'seller_id' => $sellerId,
-            'category_id' => $categoryId
-        ]);
+        $product = Product::where('product_id', $productId)
+            ->where('seller_id', $sellerId)
+            ->where('category_id', $categoryId)
+            ->firstOrFail();
 
         if (auth()->user()->function_id == 2 && $product->seller_id !== auth()->id()) {
             abort(403, 'Acesso não autorizado.');
@@ -77,10 +82,10 @@ class GerenciadorProdutoController extends Controller
     public function update(Request $request, $product_id, $seller_id, $category_id)
     {
         $product = Product::where('product_id', $product_id)
-                          ->where('seller_id', $seller_id)
-                          ->where('category_id', $category_id)
-                          ->firstOrFail();
-        
+            ->where('seller_id', $seller_id)
+            ->where('category_id', $category_id)
+            ->firstOrFail();
+
         if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
             abort(403, 'Você não tem permissão de realizar essa ação.');
         }
@@ -94,22 +99,28 @@ class GerenciadorProdutoController extends Controller
             'category_id' => 'required|exists:categories,category_id',
         ]);
 
-        $product->update($validatedData);
+        Product::where('product_id', $product_id)
+            ->where('seller_id', $seller_id)
+            ->where('category_id', $category_id)
+            ->update($validatedData);
 
-        return redirect()->route('products.index')->with('success', 'Produto atualizado com sucesso!');
+        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
     }
-
     public function destroy(string $productId, string $sellerId, string $categoryId)
     {
         $product = Product::where('product_id', $productId)
-                        ->where('seller_id', $sellerId)
-                        ->where('category_id', $categoryId);
+            ->where('seller_id', $sellerId)
+            ->where('category_id', $categoryId)
+            ->firstOrFail();
 
         if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
             abort(403, 'Você não tem permissão para realizar essa ação.');
         }
 
-        $product->delete();
+        Product::where('product_id', $productId)
+            ->where('seller_id', $sellerId)
+            ->where('category_id', $categoryId)
+            ->delete();
 
         return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso!');
     }

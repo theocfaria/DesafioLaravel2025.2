@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = ['product_id', 'seller_id', 'category_id'];
+    // protected $primaryKey = ['product_id', 'seller_id', 'category_id'];
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -24,11 +24,13 @@ class Product extends Model
         'category_id',
     ];
 
-    public function seller() {
+    public function seller()
+    {
         return $this->belongsTo(User::class, 'seller_id', 'user_id');
     }
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
 }
