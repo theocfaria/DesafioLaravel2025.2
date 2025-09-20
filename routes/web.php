@@ -3,21 +3,15 @@
 use App\Http\Controllers\PaginaInicialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\GerenciadorProdutoController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-//});
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [PaginaInicialController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('pagina-inicial');
 
 Route::get('admin/dashboard', function () {
     return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/', [PaginaInicialController::class, 'index'])->middleware(['auth', 'verified'])->name('pagina-inicial');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -25,6 +19,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/products/{productId}/{sellerId}/{categoryId}', [ProductController::class, 'show'])->name('products.show');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::resource('produtos', GerenciadorProdutoController::class)
+         ->only(['index', 'create', 'store']);
+
+    Route::get('/produtos/{product_id}/{seller_id}/{category_id}', [ProductController::class, 'show'])->name('produtos.show');
+    Route::get('/produtos/{product_id}/{seller_id}/{category_id}/edit', [GerenciadorProdutoController::class, 'edit'])->name('produtos.edit');
+    Route::put('/produtos/{product_id}/{seller_id}/{category_id}', [GerenciadorProdutoController::class, 'update'])->name('produtos.update');
+    Route::delete('/produtos/{product_id}/{seller_id}/{category_id}', [GerenciadorProdutoController::class, 'destroy'])->name('produtos.destroy');
+});
+
 
 require __DIR__ . '/auth.php';

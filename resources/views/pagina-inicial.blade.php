@@ -35,7 +35,7 @@
 
             <div class="flex flex-col gap-4">
                 @foreach ($products as $product)
-                    <a href="{{ route('products.show', ['productId' => $product->product_id, 'sellerId' => $product->seller_id, 'categoryId' => $product->category_id]) }}" class="block">
+                    <a href="{{ route('produtos.show', ['product_id' => $product->product_id, 'seller_id' => $product->seller_id, 'category_id' => $product->category_id]) }}" class="block">
                         <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg flex h-48 overflow-hidden gap-4">
                             <div class="w-48 h-full bg-gray-200 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center">
                                 @if($product->image)
