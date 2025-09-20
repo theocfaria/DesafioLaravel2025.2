@@ -4,6 +4,7 @@ use App\Http\Controllers\PaginaInicialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GerenciadorProdutoController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', [PaginaInicialController::class, 'index'])
     ->middleware(['auth', 'verified'])
