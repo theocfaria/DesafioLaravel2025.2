@@ -102,8 +102,7 @@ class GerenciadorProdutoController extends Controller
     {
         $product = Product::where('product_id', $productId)
                         ->where('seller_id', $sellerId)
-                        ->where('category_id', $categoryId)
-                        ->firstOrFail();
+                        ->where('category_id', $categoryId);
 
         if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
             abort(403, 'Você não tem permissão para realizar essa ação.');
