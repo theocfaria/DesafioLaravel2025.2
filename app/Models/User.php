@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +9,6 @@ use App\Models\UserFunction;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     protected $primaryKey = 'user_id';
@@ -49,7 +47,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function function() {
-        return $this->belongsTo(UserFunction::class, 'function_id');
+    public function function()
+    {
+        return $this->belongsTo(UserFunction::class, 'function_id', 'function_id');
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'user_id', 'user_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'seller_id', 'user_id');
     }
 }
