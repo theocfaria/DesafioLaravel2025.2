@@ -6,14 +6,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GerenciadorProdutoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HistoricoVendaController;
+use App\Http\Controllers\GerenciadorUsuarioController;
 
 Route::get('/', [PaginaInicialController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('pagina-inicial');
 
 Route::get('admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+        return view('admin.dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,5 +29,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historico-vendas/pdf', [HistoricoVendaController::class, 'generatePdf'])->name('historico-vendas.pdf');
 });
 
+Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('gerenciador-usuarios', GerenciadorUsuarioController::class);
+});
 
 require __DIR__ . '/auth.php';

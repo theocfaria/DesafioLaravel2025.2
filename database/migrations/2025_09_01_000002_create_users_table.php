@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->date('birth');
             $table->string('cpf', 14)->unique();
             $table->decimal('balance', 10, 2)->nullable();
-            $table->binary('image')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('function_id');
             $table->unsignedBigInteger('father_id')->nullable();
             $table->timestamps();
