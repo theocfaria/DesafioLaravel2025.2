@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class, 'seller_id', 'user_id');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'user_id';
+    }
 }

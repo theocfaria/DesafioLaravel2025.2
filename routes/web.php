@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('gerenciador-usuarios', GerenciadorUsuarioController::class);
+    Route::resource('users', GerenciadorUsuarioController::class);
 });
 
 require __DIR__ . '/auth.php';
