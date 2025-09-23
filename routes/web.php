@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CepController;
 use App\Http\Controllers\PaginaInicialController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', GerenciadorUsuarioController::class);
 });
+
+Route::get('/cep/{cep}', [CepController::class, 'show']);
 
 require __DIR__ . '/auth.php';

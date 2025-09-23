@@ -125,4 +125,6 @@
             </button>
         </div>
     </div>
+    <script src="{{ asset('/cep.js') }}"></script>
+
 </div>
