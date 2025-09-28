@@ -8,6 +8,8 @@ use App\Http\Controllers\GerenciadorProdutoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HistoricoVendaController;
 use App\Http\Controllers\GerenciadorUsuarioController;
+use App\Http\Controllers\PagSeguroConnectController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', [PaginaInicialController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -28,6 +30,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/produtos/{product_id}/{seller_id}/{category_id}', [GerenciadorProdutoController::class, 'destroy'])->name('produtos.destroy');
     Route::get('/historico-vendas', [HistoricoVendaController::class, 'index'])->name('historico-vendas.index');
     Route::get('/historico-vendas/pdf', [HistoricoVendaController::class, 'generatePdf'])->name('historico-vendas.pdf');
+    Route::get('/pagseguro/connect', [PagSeguroConnectController::class, 'connect'])->name('pagseguro.connect');
+    Route::get('/pagseguro/callback', [PagSeguroConnectController::class, 'callback'])->name('pagseguro.callback');
+    Route::post('/comprar/{product}', [CheckoutController::class, 'process'])->name('checkout.process');
+
 });
 
 Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {

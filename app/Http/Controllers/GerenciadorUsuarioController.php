@@ -28,7 +28,7 @@ class GerenciadorUsuarioController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:45'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:45', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:100', 'unique:'.User::class],
             'cpf' => ['required', 'string', 'max:14', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'birth' => ['required', 'date'],

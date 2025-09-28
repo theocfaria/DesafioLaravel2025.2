@@ -36,6 +36,7 @@ class User extends Authenticatable
     'image',
     'function_id',
     'father_id',
+    'pagseguro_authorization_code',
 ];
 
 

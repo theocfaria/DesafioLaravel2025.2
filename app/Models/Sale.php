@@ -11,13 +11,21 @@ class Sale extends Model
     protected $primaryKey = 'sale_id';
 
     protected $fillable = [
-        'user_id',
+        'user_id',  
+        'seller_id',
         'total_value',
+        'status',
+        'pagseguro_transaction_code', 
     ];
 
     public function buyer()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
+    }
+
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'user_id');
     }
 
     public function products()
