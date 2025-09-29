@@ -6,7 +6,6 @@
                     @if($product->image)
                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-96 object-contain rounded-lg shadow-md">
                     @else
-                        {{-- A caixa 'Sem imagem' agora tem a mesma altura e largura da imagem --}}
                         <div class="w-full h-96 bg-gray-200 dark:bg-gray-700 flex items-center justify-center rounded-lg shadow-md">
                             <span class="text-gray-500 dark:text-gray-300">Sem imagem</span>
                         </div>
@@ -38,13 +37,55 @@
 
                     <div>
                         @auth
-                            @if (!Auth::user()->is_admin)
-                                <div class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg text-center hover:bg-blue-700 transition-colors duration-300 shadow-lg cursor-not-allowed">
-                                    Comprar (Funcionalidade Desabilitada)
-                                </div>
+                            @if (Auth::user()->is_admin)
+                                <p class="text-center text-red-500 font-semibold text-lg">Como administrador, você não pode comprar produtos.</p>
+                            
+                            @elseif (Auth::id() === $product->seller_id)
+                                <p class="text-center text-yellow-500 font-semibold text-lg">Você não pode comprar seu próprio produto.</p>
+
                             @else
-                                <p class="text-center text-red-500 font-semibold text-lg">Como administrador, você não pode comprar este produto.</p>
-                            @endif
+                                <form action="/checkout" method="POST">
+                                    @csrf
+
+                                    <input type="hidden" name="product_name" value="{{ $product->name }}">
+                                    <input type="hidden" name="product_price" value="{{ $product->price }}">
+                                    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+
+                                    <div class="flex items-center justify-center gap-4 mb-4">
+                                        <label for="quantity" class="font-semibold">Quantidade:</label>
+                                        <input 
+                                            type="number" 
+                                            id="quantity" 
+                                            name="product_quantity" 
+                                            value="1" 
+                                            min="1" 
+                                            max="{{ $product->quantity }}" 
+                                            class="w-20 text-center bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                            required>
+                                    </div>
+                                        {{-- Bloco para exibir TODOS os erros de validação --}}
+                                        @if ($errors->any())
+                                            <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700 dark:bg-red-200 dark:text-red-800" role="alert">
+                                                <span class="font-bold">Ocorreram alguns erros:</span>
+                                                <ul class="mt-2 list-inside list-disc">
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                        {{-- Bloco que você já deve ter para erros específicos --}}
+                                        @if(session('error'))
+                                            <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700 dark:bg-red-200 dark:text-red-800" role="alert">
+                                                <span class="font-bold">{{ session('error') }}</span>
+                                            </div>
+                                        @endif
+                                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg text-center hover:bg-blue-700 transition-colors duration-300 shadow-lg">
+                                       Comprar 
+                                    </button>
+                                </form>
+                                @endif
                         @endauth
                         
                         @guest
@@ -55,6 +96,10 @@
                                 </a>
                             </div>
                         @endguest
+
+                        @if(session('error'))
+                            <p class="text-red-500 text-center mt-4">{{ session('error') }}</p>
+                        @endif
                     </div>
                 </div>
             </div>

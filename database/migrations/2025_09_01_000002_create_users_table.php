@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('phone_number', 16);
             $table->date('birth');
             $table->string('cpf', 14)->unique();
-            $table->decimal('balance', 10, 2)->nullable();
+            $table->decimal('balance', 10, 2)->default(0.00);
             $table->string('image')->nullable();
             $table->unsignedBigInteger('function_id');
             $table->unsignedBigInteger('father_id')->nullable();

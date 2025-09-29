@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'pagseguro' => [
+        'url' => env('PAGSEGURO_URL', 'https://sandbox.api.pagseguro.com'),
+        'app_id' => env('PAGSEGURO_APP_ID'),
+        'app_key' => env('PAGSEGURO_APP_KEY'),
+    ],
 ];
