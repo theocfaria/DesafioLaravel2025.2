@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
@@ -48,8 +49,19 @@ class PagSeguroController extends Controller
                 'category_id' => $product->category_id,
                 'buyer_id' => Auth::id(),
                 'quantity' => $quantity,
-                'total_price' => $product->price * $quantity
+                'total_amount' => $product->price * $quantity
             ]);
+
+            $sale = Sale::create([
+                'user_id' => $product->seller_id,
+                'total_value' => $product->price * $quantity
+            ]);
+
+            $sale->products()->attach($product->product_id, [
+                'quantity' => $quantity,
+                'price_at_sale' => $product->price
+            ]);
+
             $pay_link = data_get($response->json(), 'links.1.href');
 
             return redirect()->away($pay_link);

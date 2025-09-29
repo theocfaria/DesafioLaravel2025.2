@@ -7,12 +7,23 @@
                         {{ __('Página Inicial') }}
                     </x-nav-link>
 
-                    @if(Auth::user()->function_id == 1 || Auth::user()->function_id == 2)
+                    @if(Auth::user()->function_id == 2)
+                        <x-nav-link :href="route('produtos.index')" :active="request()->routeIs('produtos.index')">
+                            {{ __('Produtos') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->function_id == 1)
                         <x-nav-link :href="route('produtos.index')" :active="request()->routeIs('produtos.index')">
                             {{ __('Gerenciar Produtos') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Gerenciar Usuários') }}
+                        </x-nav-link>
                     @endif
-                    </div>
+
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -76,7 +87,7 @@
                     {{ __('Gerenciar Produtos') }}
                 </x-responsive-nav-link>
             @endif
-            </div>
+        </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
