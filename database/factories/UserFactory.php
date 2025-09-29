@@ -40,6 +40,7 @@ class UserFactory extends Factory
             'cpf' => $this->faker->numerify("###.###.###-##"),
             'balance' => $this->faker->randomFloat(2, 0, 10000),
             'image' => null,
+            'pagseguro_authorization_code' => null,
             'function_id' => $this->faker->numberBetween(1, DB::table('functions')->count()),
             'father_id' => null,
             'updated_at' => null,
@@ -50,6 +51,14 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      */
+
+    public function asSeller(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'pagseguro_authorization_code' => '',
+        ]);
+    }
+
     public function unverified(): static
     {
         return $this->state(fn(array $attributes) => [
