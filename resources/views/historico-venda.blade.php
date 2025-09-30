@@ -1,6 +1,23 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @can('ver-grafico-vendas')
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Análise das Vendas
+
+                        </h5>
+                    </div>
+
+                    <div class="card-body">
+                        {!! $chart->renderHtml() !!}
+                        {!! $chart->renderChartJsLibrary() !!}
+                        {!! $chart->renderJs() !!}
+                    </div>
+                </div>
+            @endcan
+
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
                     Histórico de Vendas

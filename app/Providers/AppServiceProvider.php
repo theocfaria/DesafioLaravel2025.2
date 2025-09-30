@@ -26,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('ver-grafico-produtos', function (User $user) {
             return $user->function_id == 1;
         });
+
+        Gate::define('ver-grafico-vendas', function (User $user) {
+            return $user->function_id == 2;
+        });
     }
 }

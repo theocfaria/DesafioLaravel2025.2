@@ -15,6 +15,13 @@ class Sale extends Model
         'total_value',
     ];
 
+    public function seller()
+    {
+        $firstProduct = $this->products()->first();
+
+        return $firstProduct->seller;
+    }
+
     public function buyer()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
