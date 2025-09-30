@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HistoricoVendaController;
 use App\Http\Controllers\GerenciadorUsuarioController;
 use App\Http\Controllers\HistoricoCompraController;
+use App\Http\Controllers\EmailController;
 
 Route::get('/', [PaginaInicialController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -36,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('users', GerenciadorUsuarioController::class);
+    Route::get('/enviar-email', [EmailController::class, 'create'])->name('email.create');
+    Route::post('/enviar-email', [EmailController::class, 'send'])->name('email.send');
 });
 
 Route::get('/cep/{cep}', [CepController::class, 'show']);

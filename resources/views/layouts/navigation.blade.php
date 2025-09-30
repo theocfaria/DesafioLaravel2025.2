@@ -21,6 +21,10 @@
                         <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
                             {{ __('Gerenciar Usuários') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.email.create')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Enviar Email') }}
+                        </x-nav-link>
                     @endif
 
                 </div>
