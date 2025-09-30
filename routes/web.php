@@ -33,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/historico-vendas/pdf', [HistoricoVendaController::class, 'generatePdf'])->name('historico-vendas.pdf');
     Route::get('/historico-compras', [HistoricoCompraController::class, 'index'])->name('historico-compras.index');
     Route::post('/checkout', [PagSeguroController::class, 'createCheckout']);
+    Route::get('/historico-compras', [HistoricoCompraController::class, 'index'])->name('historico-compras.index');
+    Route::get('/historico-compras/pdf', [HistoricoCompraController::class, 'generatePdf'])->name('historico-compras.pdf');
+    
 });
 
 Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(function () {

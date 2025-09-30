@@ -1,11 +1,13 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
                     Histórico de Compras
                 </h2>
             </div>
+
             <div class="mb-6 p-4 bg-white dark:bg-gray-800 shadow-md sm:rounded-lg">
                 <div class="md:flex md:items-end md:justify-between">
                     <form action="{{ route('historico-compras.index') }}" method="GET"
@@ -45,21 +47,19 @@
                     <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg flex h-40 overflow-hidden gap-4">
                         <div
                             class="w-40 h-full bg-gray-200 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center">
-                            @if($compra->product && $compra->product->image)
+                            @if($compra->product->image)
                                 <img src="{{ asset('storage/' . $compra->product->image) }}" class="w-full h-full object-cover"
                                     alt="{{ $compra->product->name }}">
                             @else
-                                <span class="text-gray-500">Sem Imagem</span>
+                                <span class="text-gray-500 dark:text-gray-300">Sem Imagem</span>
                             @endif
                         </div>
 
                         <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between text-gray-900 dark:text-gray-100">
                             <div>
-                                <h3 class="text-xl font-semibold">{{ $compra->product->name ?? 'Produto não encontrado' }}
-                                </h3>
+                                <h3 class="text-xl font-semibold">{{ $compra->product->name }}</h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                    Vendido por: <span
-                                        class="font-medium">{{ $compra->seller->name ?? 'Vendedor não encontrado' }}</span>
+                                    Vendido por: <span class="font-medium">{{ $compra->seller->name }}</span>
                                 </p>
                             </div>
                             <div class="flex justify-between items-center mt-3">

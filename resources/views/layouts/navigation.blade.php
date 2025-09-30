@@ -11,6 +11,10 @@
                         <x-nav-link :href="route('produtos.index')" :active="request()->routeIs('produtos.index')">
                             {{ __('Produtos') }}
                         </x-nav-link>
+
+                         <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+                            {{ __('Históricos') }}
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->function_id == 1)
