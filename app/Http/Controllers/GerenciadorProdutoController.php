@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class GerenciadorProdutoController extends Controller
 {
@@ -20,7 +19,19 @@ class GerenciadorProdutoController extends Controller
             $products = Product::where('seller_id', $user->user_id)->get();
         }
 
-        return view('gerenciamento-produto', compact('products'));
+        $chart_options = [
+            'chart_title' => 'Produtos cadastrados por mês',
+            'model' => Product::class,
+            'chart_type' => 'bar',
+            'report_type' => 'group_by_date',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_color' => '37, 99, 235',
+        ];
+
+        $chart = new LaravelChart($chart_options);
+
+        return view('gerenciamento-produto', compact('products', 'chart'));
     }
 
     public function create()
