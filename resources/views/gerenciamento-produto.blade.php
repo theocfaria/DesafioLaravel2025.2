@@ -37,6 +37,7 @@
             <div class="flex flex-col gap-4">
                 @forelse ($products as $product)
                                 <div class="bg-white dark:bg-gray-800 shadow-md sm:rounded-lg flex h-48 overflow-hidden gap-4">
+                                    <a href="{{ route('produtos.show', ['product_id' => $product->product_id, 'seller_id' => $product->seller_id, 'category_id' => $product->category_id]) }}">
                                     <div
                                         class="w-48 h-full bg-gray-200 dark:bg-gray-700 flex-shrink-0 flex items-center justify-center">
                                         @if($product->image)
@@ -83,7 +84,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                                </a>
                                 </div>
+                                
                 @empty
                     <div class="p-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <p class="text-gray-500 dark:text-gray-400 text-center">Nenhum produto cadastrado.</p>

@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use Illuminate\Support\Facades\Storage;
+
 
 class GerenciadorProdutoController extends Controller
 {
@@ -91,48 +93,55 @@ class GerenciadorProdutoController extends Controller
 
 
     public function update(Request $request, $product_id, $seller_id, $category_id)
-    {
-        $product = Product::where('product_id', $product_id)
-            ->where('seller_id', $seller_id)
-            ->where('category_id', $category_id)
-            ->firstOrFail();
+{
+    $product = Product::where('product_id', $product_id)
+        ->where('seller_id', $seller_id)
+        ->where('category_id', $category_id)
+        ->firstOrFail();
 
-        if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
-            abort(403, 'Você não tem permissão de realizar essa ação.');
+    if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
+        abort(403, 'Você não tem permissão de realizar essa ação.');
+    }
+
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+        'price' => 'required|numeric|min:0.01',
+        'quantity' => 'required|integer|min:0',
+        'description' => 'required|string',
+        'category_id' => 'required|exists:categories,category_id',
+    ]);
+
+    if ($request->hasFile('image')) {
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
         }
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|string',
-            'price' => 'required|numeric|min:0.01',
-            'quantity' => 'required|integer|min:0',
-            'description' => 'required|string',
-            'category_id' => 'required|exists:categories,category_id',
-        ]);
-
-        Product::where('product_id', $product_id)
-            ->where('seller_id', $seller_id)
-            ->where('category_id', $category_id)
-            ->update($validatedData);
-
-        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
+        $imagePath = $request->file('image')->store('products', 'public');
+        $validatedData['image'] = $imagePath;
     }
+
+    $product->update($validatedData);
+
+    return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
+}
     public function destroy(string $productId, string $sellerId, string $categoryId)
     {
-        $product = Product::where('product_id', $productId)
-            ->where('seller_id', $sellerId)
-            ->where('category_id', $categoryId)
-            ->firstOrFail();
+    $product = Product::where('product_id', $productId)
+        ->where('seller_id', $sellerId)
+        ->where('category_id', $categoryId)
+        ->firstOrFail();
 
-        if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
-            abort(403, 'Você não tem permissão para realizar essa ação.');
-        }
-
-        Product::where('product_id', $productId)
-            ->where('seller_id', $sellerId)
-            ->where('category_id', $categoryId)
-            ->delete();
-
-        return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso!');
+    if (auth()->user()->function_id == 2 && $product->seller_id != auth()->user()->user_id) {
+        abort(403, 'Você não tem permissão para realizar essa ação.');
     }
+
+    if ($product->image) {
+        Storage::disk('public')->delete($product->image);
+    }
+
+    $product->delete();
+
+    return redirect()->route('produtos.index')->with('success', 'Produto excluído com sucesso!');
+}
 }
