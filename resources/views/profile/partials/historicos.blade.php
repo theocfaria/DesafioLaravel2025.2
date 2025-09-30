@@ -10,7 +10,7 @@
     </header>
 
     <div class="flex items-center gap-4">
-        <a href="">
+        <a href="{{ route('historico-compras.index') }}">
             <x-secondary-button>
                 {{ __('Ver Histórico de Compras') }}
             </x-secondary-button>

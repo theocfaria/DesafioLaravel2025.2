@@ -9,6 +9,7 @@ use App\Http\Controllers\GerenciadorProdutoController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HistoricoVendaController;
 use App\Http\Controllers\GerenciadorUsuarioController;
+use App\Http\Controllers\HistoricoCompraController;
 
 Route::get('/', [PaginaInicialController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -29,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/produtos/{product_id}/{seller_id}/{category_id}', [GerenciadorProdutoController::class, 'destroy'])->name('produtos.destroy');
     Route::get('/historico-vendas', [HistoricoVendaController::class, 'index'])->name('historico-vendas.index');
     Route::get('/historico-vendas/pdf', [HistoricoVendaController::class, 'generatePdf'])->name('historico-vendas.pdf');
+    Route::get('/historico-compras', [HistoricoCompraController::class, 'index'])->name('historico-compras.index');
     Route::post('/checkout', [PagSeguroController::class, 'createCheckout']);
 });
 
