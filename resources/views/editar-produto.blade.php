@@ -3,21 +3,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <form method="POST"
                 action="{{ route('produtos.update', ['product_id' => $product->product_id, 'seller_id' => $product->seller_id, 'category_id' => $product->category_id]) }}"
-                enctype="multipart/form-data"> {{-- Adicione enctype para o upload de arquivo --}}
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
-                {{-- O x-data inicializa o Alpine.js para controlar o estado da imagem --}}
                 <div class="bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg overflow-hidden md:flex flex-grow"
                      x-data="{ imageUrl: '{{ $product->image ? asset('storage/' . $product->image) : '' }}' }">
 
-                    {{-- Coluna da Imagem --}}
                     <div class="md:w-1/2 p-6 flex-shrink-0 flex flex-col items-center justify-center gap-4">
                         <label for="image"
                             class="block text-lg font-semibold text-gray-700 dark:text-gray-300 self-start">Imagem do
                             Produto</label>
 
-                        {{-- Template para exibir a imagem ou o placeholder --}}
                         <template x-if="imageUrl">
                             <img :src="imageUrl" alt="Preview da Imagem"
                                  class="w-full h-96 object-contain rounded-lg shadow-md">
@@ -30,7 +27,6 @@
                         </template>
 
                         <div>
-                            {{-- @change escuta por mudanças no input e atualiza a variável imageUrl --}}
                             <input type="file" name="image" id="image"
                                    @change="imageUrl = URL.createObjectURL($event.target.files[0])"
                                 class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
@@ -40,7 +36,6 @@
                         @enderror
                     </div>
 
-                    {{-- Coluna dos Detalhes do Produto (nenhuma mudança aqui) --}}
                     <div class="md:w-1/2 p-6 flex flex-col text-gray-900 dark:text-gray-100">
                         <div class="mb-4">
                             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nome do

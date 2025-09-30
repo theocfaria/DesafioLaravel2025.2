@@ -14,6 +14,10 @@
                     @endif
 
                     @if(Auth::user()->function_id == 1)
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+
                         <x-nav-link :href="route('produtos.index')" :active="request()->routeIs('produtos.index')">
                             {{ __('Gerenciar Produtos') }}
                         </x-nav-link>
@@ -22,7 +26,7 @@
                             {{ __('Gerenciar Usuários') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('admin.email.create')" :active="request()->routeIs('admin.users.*')">
+                        <x-nav-link :href="route('admin.email.create')" :active="request()->routeIs('admin.email.*')">
                             {{ __('Enviar Email') }}
                         </x-nav-link>
                     @endif

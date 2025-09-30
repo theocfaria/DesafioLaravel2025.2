@@ -28,7 +28,7 @@
                         </button>
                     </form>
 
-                    <form action="{{-- route('historico-compras.pdf') --}}" method="GET" target="_blank"
+                    <form action="{{ route('historico-compras.pdf') }}" method="GET" target="_blank"
                         class="mt-4 md:mt-0 items-center">
                         <input type="hidden" name="start_date" value="{{ request('start_date') }}">
                         <input type="hidden" name="end_date" value="{{ request('end_date') }}">

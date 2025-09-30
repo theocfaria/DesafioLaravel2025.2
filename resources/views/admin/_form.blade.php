@@ -28,7 +28,6 @@
         </div>
 
         <div class="w-full space-y-4 pt-4">
-            {{-- Senha --}}
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Senha</label>
                 <input type="password" name="password" id="password" autocomplete="new-password" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm dark:bg-gray-700 dark:text-gray-100">

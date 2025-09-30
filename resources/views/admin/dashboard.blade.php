@@ -11,7 +11,6 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-lg font-semibold mb-4">Bem-vindo, {{ Auth::user()->name }}!</h3>
 
-                    {{-- Verifica se o usuário é Admin ou Vendedor --}}
                     @if(Auth::user()->function_id == 1 || Auth::user()->function_id == 2)
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
 
