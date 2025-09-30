@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id('user_id');
             $table->string('name', 45);
             $table->string('email', 45)->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password', 255);
             $table->string('cep', 9);
             $table->integer('number');
@@ -26,6 +27,7 @@ return new class extends Migration {
             $table->string('image')->nullable();
             $table->unsignedBigInteger('function_id');
             $table->unsignedBigInteger('father_id')->nullable();
+            $table->rememberToken();
             $table->timestamps();
 
             $table->unique(['user_id', 'function_id']);
@@ -52,6 +54,8 @@ return new class extends Migration {
 
     public function down(): void
     {
+        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
     }
 };
